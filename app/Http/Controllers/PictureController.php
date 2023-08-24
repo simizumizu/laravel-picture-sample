@@ -41,7 +41,7 @@ class PictureController extends Controller
             ]);
         }
 
-        return redirect()->route('picture.create')->with('success', '画像を保存しました。');
+        return redirect()->route('picture.create')->with('success', 'ファイルをアップロードしました');
     }
 
     /**
