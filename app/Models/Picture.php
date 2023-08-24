@@ -11,5 +11,10 @@ class Picture extends Model
 
     protected $fillable = [
         'img_path',
+        'filesize',
+        'width',
+        'height',
+        'filetype',
+        'img_tag_attr',
     ];
 }

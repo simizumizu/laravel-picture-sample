@@ -32,6 +32,39 @@ class PictureController extends Controller
     {
         // 画像フォームでリクエストした画像情報を取得
         $img = $request->file('img_path');
+        $filesize = $img->getSize();
+        // getimagesize関数で画像の幅と高さを取得
+        list($width, $height, $type, $attr) = getimagesize($img);
+        logger()->info([
+            'width' => $width,
+            'height' => $height,
+            'type' => $type,
+            'attr' => $attr,
+        ]);
+
+        // 各画像のtypeを、IMAGETYPE_XXXの定数で比較する
+        // logger()->debug([
+        //     'IMAGETYPE_GIF' => IMAGETYPE_GIF,
+        //     'IMAGETYPE_JPEG' => IMAGETYPE_JPEG,
+        //     'IMAGETYPE_JPEG2000' => IMAGETYPE_JPEG2000,
+        //     'IMAGETYPE_PNG' => IMAGETYPE_PNG,
+        //     'IMAGETYPE_SWF' => IMAGETYPE_SWF,
+        //     'IMAGETYPE_PSD' => IMAGETYPE_PSD,
+        //     'IMAGETYPE_BMP' => IMAGETYPE_BMP,
+        //     'IMAGETYPE_WBMP' => IMAGETYPE_WBMP,
+        //     'IMAGETYPE_XBM' => IMAGETYPE_XBM,
+        //     'IMAGETYPE_TIFF_II' => IMAGETYPE_TIFF_II,
+        //     'IMAGETYPE_TIFF_MM' => IMAGETYPE_TIFF_MM,
+        //     'IMAGETYPE_IFF' => IMAGETYPE_IFF,
+        //     'IMAGETYPE_JB2' => IMAGETYPE_JB2,
+        //     'IMAGETYPE_JPC' => IMAGETYPE_JPC,
+        //     'IMAGETYPE_JP2' => IMAGETYPE_JP2,
+        //     'IMAGETYPE_JPX' => IMAGETYPE_JPX,
+        //     'IMAGETYPE_SWC' => IMAGETYPE_SWC,
+        //     'IMAGETYPE_ICO' => IMAGETYPE_ICO,
+        //     'IMAGETYPE_WEBP' => IMAGETYPE_WEBP,
+        //     'IMAGETYPE_AVIF' => IMAGETYPE_AVIF,
+        // ]);
         // storage > public > img配下に画像が保存される
         $path = $img->store('img','public');
 
@@ -39,6 +72,11 @@ class PictureController extends Controller
         if($path){
             Picture::create([
                 'img_path' => $path,
+                'filesize' => $filesize,
+                'width' => $width,
+                'height' => $height,
+                'filetype' => $type,
+                'img_tag_attr' => $attr,
             ]);
         }
 
