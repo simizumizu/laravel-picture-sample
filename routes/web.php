@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PictureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PictureController::class, 'index'])->name('picture.index');
+Route::get('/create', [PictureController::class, 'create'])->name('picture.create');
+Route::post('/store', [PictureController::class, 'store'])->name('picture.store');
