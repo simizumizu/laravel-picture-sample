@@ -13,7 +13,8 @@ class PictureController extends Controller
      */
     public function index()
     {
-        return view('picture.index');
+        $pictures = Picture::all();
+        return view('picture.index', compact('pictures'));
     }
 
     /**
@@ -41,7 +42,7 @@ class PictureController extends Controller
             ]);
         }
 
-        return redirect()->route('picture.create')->with('success', 'ファイルをアップロードしました');
+        return redirect()->route('picture.index')->with('success', 'ファイルをアップロードしました');
     }
 
     /**
