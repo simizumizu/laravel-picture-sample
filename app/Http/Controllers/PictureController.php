@@ -35,12 +35,6 @@ class PictureController extends Controller
         $filesize = $img->getSize();
         // getimagesize関数で画像の幅と高さを取得
         list($width, $height, $type, $attr) = getimagesize($img);
-        logger()->info([
-            'width' => $width,
-            'height' => $height,
-            'type' => $type,
-            'attr' => $attr,
-        ]);
 
         // 各画像のtypeを、IMAGETYPE_XXXの定数で比較する
         // logger()->debug([
@@ -67,6 +61,14 @@ class PictureController extends Controller
         // ]);
         // storage > public > img配下に画像が保存される
         $path = $img->store('img','public');
+        logger()->info([
+            'img_path' => $path,
+            'filesize' => $filesize, // ファイルサイズは単位がバイト
+            'width' => $width,
+            'height' => $height,
+            'type' => $type,
+            'attr' => $attr,
+        ]);
 
         // 画像の保存に成功したら、DBに記録する
         if($path){
