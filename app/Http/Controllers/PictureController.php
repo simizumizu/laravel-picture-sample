@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePictureRequest;
 use App\Http\Requests\UpdatePictureRequest;
 use App\Models\Picture;
+use App\Jobs\ConvertBmp;
 
 class PictureController extends Controller
 {
@@ -72,7 +73,7 @@ class PictureController extends Controller
 
         // 画像の保存に成功したら、DBに記録する
         if($path){
-            Picture::create([
+            $picture = Picture::create([
                 'img_path' => $path,
                 'filesize' => $filesize,
                 'width' => $width,
@@ -80,6 +81,9 @@ class PictureController extends Controller
                 'filetype' => $type,
                 'img_tag_attr' => $attr,
             ]);
+
+            // 画像の拡張子をbmpに変換する
+            ConvertBmp::dispatch($picture);
         }
 
         return redirect()->route('picture.index')->with('success', 'ファイルをアップロードしました');
